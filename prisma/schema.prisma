@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Room {
+  id              String        @id
+  creatorToken    String
+  language        String        @default("typescript")
+  durationMinutes Int           @default(60)
+  locked          Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  expiresAt       DateTime
+  replayId        String?
+  participants    Participant[]
+  replay          Replay?       @relation(fields: [replayId], references: [id])
+}
+
+model Replay {
+  id        String   @id
+  createdAt DateTime @default(now())
+  durationS Int
+  language  String
+  log       Json
+  rooms     Room[]
+}
+
+model Participant {
+  id       Int       @id @default(autoincrement())
+  roomId   String
+  name     String
+  color    String
+  role     String
+  joinedAt DateTime  @default(now())
+  leftAt   DateTime?
+  room     Room      @relation(fields: [roomId], references: [id])
+}
