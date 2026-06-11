@@ -157,32 +157,6 @@ io.on("connection", (socket) => {
   }).catch(err => console.error("Failed to save participant:", err))
   })
 
-  // Typing status
-  socket.on("user:typing", ({ roomId }) => {
-    const room = rooms.get(roomId)
-    if (!room) return
-    const participant = room.participants.get(socket.id)
-    if (!participant) return
-
-    if (participant.status === "typing...") return
-
-    participant.status = "typing..."
-    io.to(roomId).emit("participants:update",
-      Array.from(room.participants.values())
-    )
-
-    setTimeout(() => {
-      const currentRoom = rooms.get(roomId)
-      const currentParticipant = currentRoom?.participants.get(socket.id)
-      if (currentParticipant && currentParticipant.status === "typing...") {
-        currentParticipant.status = "online"
-        io.to(roomId).emit("participants:update",
-          Array.from(currentRoom!.participants.values())
-        )
-      }
-    }, 2000)
-  })
-
   // ── Code execution ──
   socket.on("code:run", ({ roomId, output, exitCode, runtime }) => {
     const participant = rooms.get(roomId)?.participants.get(socket.id)

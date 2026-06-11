@@ -67,16 +67,17 @@ export function useYjs({ roomId, userName, userColor }: UseYjsProps) {
       const states = provider.awareness.getStates()
       let css = `
         .yRemoteSelection {
-          background-color: #5b7fff33;
+          background-color: var(--remote-color-light, #5b7fff33) !important;
         }
         .yRemoteSelectionHead {
           position: absolute;
-          border-left: 2px solid #5b7fff;
-          border-top: 2px solid #5b7fff;
+          border-left: 2px solid var(--remote-color, #5b7fff);
+          border-top: 2px solid var(--remote-color, #5b7fff);
           height: 100%;
           box-sizing: border-box;
         }
         .yRemoteSelectionHead::after {
+          content: attr(data-user);
           position: absolute;
           top: -1.4em;
           left: -2px;
@@ -88,6 +89,7 @@ export function useYjs({ roomId, userName, userColor }: UseYjsProps) {
           white-space: nowrap;
           pointer-events: none;
           z-index: 10;
+          background-color: var(--remote-color, #5b7fff) !important;
         }
       `
 
@@ -97,15 +99,13 @@ export function useYjs({ roomId, userName, userColor }: UseYjsProps) {
           const { color, name } = state.user
           const colorLight = state.user.colorLight || color + "33"
           css += `
-            .yRemoteSelection-${clientID} {
-              background-color: ${colorLight} !important;
-            }
+            .yRemoteSelection-${clientID}, 
             .yRemoteSelectionHead-${clientID} {
-              border-color: ${color} !important;
+              --remote-color: ${color};
+              --remote-color-light: ${colorLight};
             }
             .yRemoteSelectionHead-${clientID}::after {
-              content: "${name}";
-              background-color: ${color} !important;
+              content: "${name}" !important;
             }
           `
         }

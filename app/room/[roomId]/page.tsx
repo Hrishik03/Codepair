@@ -489,7 +489,6 @@ export function RoomPageInner({ params }: RoomPageProps) {
                 value={code}
                 onChange={(value) => {
                   setCode(value ?? "")
-                  socket?.emit("user:typing", { roomId })
                 }}
                 onMount={handleEditorMount}
               />
@@ -644,12 +643,8 @@ export function RoomPageInner({ params }: RoomPageProps) {
                           <span className="ml-1 text-zinc-500">(you)</span>
                         )}
                       </p>
-                      <p className={`text-[11px] leading-tight ${
-                        p.status === "typing..."
-                          ? "text-amber-400"
-                          : "text-emerald-400/80"
-                      }`}>
-                        {p.status || "online"}
+                      <p className="text-[11px] leading-tight text-emerald-500">
+                        online
                       </p>
                     </div>
                     <span className="rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] text-zinc-400">
