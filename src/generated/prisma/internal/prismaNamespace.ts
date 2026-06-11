@@ -672,6 +672,7 @@ export const RoomScalarFieldEnum = {
   creatorToken: 'creatorToken',
   language: 'language',
   durationMinutes: 'durationMinutes',
+  maxParticipants: 'maxParticipants',
   locked: 'locked',
   createdAt: 'createdAt',
   expiresAt: 'expiresAt',

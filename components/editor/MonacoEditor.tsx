@@ -13,11 +13,13 @@ interface Props {
       theme: string
       fontSize: number
       wordWrap: "on" | "off"
-    }
+    },
+    readOnly?: boolean
 }
 
-export default function MonacoEditor({ language, value, onChange, onMount, settings }: Props) {
+export default function MonacoEditor({ language, value, onChange, onMount, settings, readOnly }: Props) {
     const handleEditorChange = (nextValue: string | undefined) => {
+      if (readOnly) return
       onChange(nextValue ?? "")
     }
 
@@ -36,6 +38,8 @@ export default function MonacoEditor({ language, value, onChange, onMount, setti
           lineNumbers: "on",
           wordWrap: settings?.wordWrap ?? "on",
           automaticLayout: true,
+          readOnly: readOnly ?? false,
+          domReadOnly: readOnly ?? false,
         }}
       />
     )

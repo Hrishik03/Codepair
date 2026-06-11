@@ -28,10 +28,12 @@ export type AggregateRoom = {
 
 export type RoomAvgAggregateOutputType = {
   durationMinutes: number | null
+  maxParticipants: number | null
 }
 
 export type RoomSumAggregateOutputType = {
   durationMinutes: number | null
+  maxParticipants: number | null
 }
 
 export type RoomMinAggregateOutputType = {
@@ -39,6 +41,7 @@ export type RoomMinAggregateOutputType = {
   creatorToken: string | null
   language: string | null
   durationMinutes: number | null
+  maxParticipants: number | null
   locked: boolean | null
   createdAt: Date | null
   expiresAt: Date | null
@@ -50,6 +53,7 @@ export type RoomMaxAggregateOutputType = {
   creatorToken: string | null
   language: string | null
   durationMinutes: number | null
+  maxParticipants: number | null
   locked: boolean | null
   createdAt: Date | null
   expiresAt: Date | null
@@ -61,6 +65,7 @@ export type RoomCountAggregateOutputType = {
   creatorToken: number
   language: number
   durationMinutes: number
+  maxParticipants: number
   locked: number
   createdAt: number
   expiresAt: number
@@ -71,10 +76,12 @@ export type RoomCountAggregateOutputType = {
 
 export type RoomAvgAggregateInputType = {
   durationMinutes?: true
+  maxParticipants?: true
 }
 
 export type RoomSumAggregateInputType = {
   durationMinutes?: true
+  maxParticipants?: true
 }
 
 export type RoomMinAggregateInputType = {
@@ -82,6 +89,7 @@ export type RoomMinAggregateInputType = {
   creatorToken?: true
   language?: true
   durationMinutes?: true
+  maxParticipants?: true
   locked?: true
   createdAt?: true
   expiresAt?: true
@@ -93,6 +101,7 @@ export type RoomMaxAggregateInputType = {
   creatorToken?: true
   language?: true
   durationMinutes?: true
+  maxParticipants?: true
   locked?: true
   createdAt?: true
   expiresAt?: true
@@ -104,6 +113,7 @@ export type RoomCountAggregateInputType = {
   creatorToken?: true
   language?: true
   durationMinutes?: true
+  maxParticipants?: true
   locked?: true
   createdAt?: true
   expiresAt?: true
@@ -202,6 +212,7 @@ export type RoomGroupByOutputType = {
   creatorToken: string
   language: string
   durationMinutes: number
+  maxParticipants: number
   locked: boolean
   createdAt: Date
   expiresAt: Date
@@ -236,6 +247,7 @@ export type RoomWhereInput = {
   creatorToken?: Prisma.StringFilter<"Room"> | string
   language?: Prisma.StringFilter<"Room"> | string
   durationMinutes?: Prisma.IntFilter<"Room"> | number
+  maxParticipants?: Prisma.IntFilter<"Room"> | number
   locked?: Prisma.BoolFilter<"Room"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"Room"> | Date | string
@@ -249,6 +261,7 @@ export type RoomOrderByWithRelationInput = {
   creatorToken?: Prisma.SortOrder
   language?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
+  maxParticipants?: Prisma.SortOrder
   locked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -265,6 +278,7 @@ export type RoomWhereUniqueInput = Prisma.AtLeast<{
   creatorToken?: Prisma.StringFilter<"Room"> | string
   language?: Prisma.StringFilter<"Room"> | string
   durationMinutes?: Prisma.IntFilter<"Room"> | number
+  maxParticipants?: Prisma.IntFilter<"Room"> | number
   locked?: Prisma.BoolFilter<"Room"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"Room"> | Date | string
@@ -278,6 +292,7 @@ export type RoomOrderByWithAggregationInput = {
   creatorToken?: Prisma.SortOrder
   language?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
+  maxParticipants?: Prisma.SortOrder
   locked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -297,6 +312,7 @@ export type RoomScalarWhereWithAggregatesInput = {
   creatorToken?: Prisma.StringWithAggregatesFilter<"Room"> | string
   language?: Prisma.StringWithAggregatesFilter<"Room"> | string
   durationMinutes?: Prisma.IntWithAggregatesFilter<"Room"> | number
+  maxParticipants?: Prisma.IntWithAggregatesFilter<"Room"> | number
   locked?: Prisma.BoolWithAggregatesFilter<"Room"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Room"> | Date | string
   expiresAt?: Prisma.DateTimeWithAggregatesFilter<"Room"> | Date | string
@@ -308,6 +324,7 @@ export type RoomCreateInput = {
   creatorToken: string
   language?: string
   durationMinutes?: number
+  maxParticipants?: number
   locked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
@@ -320,6 +337,7 @@ export type RoomUncheckedCreateInput = {
   creatorToken: string
   language?: string
   durationMinutes?: number
+  maxParticipants?: number
   locked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
@@ -332,6 +350,7 @@ export type RoomUpdateInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -344,6 +363,7 @@ export type RoomUncheckedUpdateInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -356,6 +376,7 @@ export type RoomCreateManyInput = {
   creatorToken: string
   language?: string
   durationMinutes?: number
+  maxParticipants?: number
   locked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
@@ -367,6 +388,7 @@ export type RoomUpdateManyMutationInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -377,6 +399,7 @@ export type RoomUncheckedUpdateManyInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -388,6 +411,7 @@ export type RoomCountOrderByAggregateInput = {
   creatorToken?: Prisma.SortOrder
   language?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
+  maxParticipants?: Prisma.SortOrder
   locked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -396,6 +420,7 @@ export type RoomCountOrderByAggregateInput = {
 
 export type RoomAvgOrderByAggregateInput = {
   durationMinutes?: Prisma.SortOrder
+  maxParticipants?: Prisma.SortOrder
 }
 
 export type RoomMaxOrderByAggregateInput = {
@@ -403,6 +428,7 @@ export type RoomMaxOrderByAggregateInput = {
   creatorToken?: Prisma.SortOrder
   language?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
+  maxParticipants?: Prisma.SortOrder
   locked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -414,6 +440,7 @@ export type RoomMinOrderByAggregateInput = {
   creatorToken?: Prisma.SortOrder
   language?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
+  maxParticipants?: Prisma.SortOrder
   locked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -422,6 +449,7 @@ export type RoomMinOrderByAggregateInput = {
 
 export type RoomSumOrderByAggregateInput = {
   durationMinutes?: Prisma.SortOrder
+  maxParticipants?: Prisma.SortOrder
 }
 
 export type RoomListRelationFilter = {
@@ -524,6 +552,7 @@ export type RoomCreateWithoutReplayInput = {
   creatorToken: string
   language?: string
   durationMinutes?: number
+  maxParticipants?: number
   locked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
@@ -535,6 +564,7 @@ export type RoomUncheckedCreateWithoutReplayInput = {
   creatorToken: string
   language?: string
   durationMinutes?: number
+  maxParticipants?: number
   locked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
@@ -575,6 +605,7 @@ export type RoomScalarWhereInput = {
   creatorToken?: Prisma.StringFilter<"Room"> | string
   language?: Prisma.StringFilter<"Room"> | string
   durationMinutes?: Prisma.IntFilter<"Room"> | number
+  maxParticipants?: Prisma.IntFilter<"Room"> | number
   locked?: Prisma.BoolFilter<"Room"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"Room"> | Date | string
@@ -586,6 +617,7 @@ export type RoomCreateWithoutParticipantsInput = {
   creatorToken: string
   language?: string
   durationMinutes?: number
+  maxParticipants?: number
   locked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
@@ -597,6 +629,7 @@ export type RoomUncheckedCreateWithoutParticipantsInput = {
   creatorToken: string
   language?: string
   durationMinutes?: number
+  maxParticipants?: number
   locked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
@@ -624,6 +657,7 @@ export type RoomUpdateWithoutParticipantsInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -635,6 +669,7 @@ export type RoomUncheckedUpdateWithoutParticipantsInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -646,6 +681,7 @@ export type RoomCreateManyReplayInput = {
   creatorToken: string
   language?: string
   durationMinutes?: number
+  maxParticipants?: number
   locked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
@@ -656,6 +692,7 @@ export type RoomUpdateWithoutReplayInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -667,6 +704,7 @@ export type RoomUncheckedUpdateWithoutReplayInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -678,6 +716,7 @@ export type RoomUncheckedUpdateManyWithoutReplayInput = {
   creatorToken?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -719,6 +758,7 @@ export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   creatorToken?: boolean
   language?: boolean
   durationMinutes?: boolean
+  maxParticipants?: boolean
   locked?: boolean
   createdAt?: boolean
   expiresAt?: boolean
@@ -733,6 +773,7 @@ export type RoomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   creatorToken?: boolean
   language?: boolean
   durationMinutes?: boolean
+  maxParticipants?: boolean
   locked?: boolean
   createdAt?: boolean
   expiresAt?: boolean
@@ -745,6 +786,7 @@ export type RoomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   creatorToken?: boolean
   language?: boolean
   durationMinutes?: boolean
+  maxParticipants?: boolean
   locked?: boolean
   createdAt?: boolean
   expiresAt?: boolean
@@ -757,13 +799,14 @@ export type RoomSelectScalar = {
   creatorToken?: boolean
   language?: boolean
   durationMinutes?: boolean
+  maxParticipants?: boolean
   locked?: boolean
   createdAt?: boolean
   expiresAt?: boolean
   replayId?: boolean
 }
 
-export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorToken" | "language" | "durationMinutes" | "locked" | "createdAt" | "expiresAt" | "replayId", ExtArgs["result"]["room"]>
+export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorToken" | "language" | "durationMinutes" | "maxParticipants" | "locked" | "createdAt" | "expiresAt" | "replayId", ExtArgs["result"]["room"]>
 export type RoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   participants?: boolean | Prisma.Room$participantsArgs<ExtArgs>
   replay?: boolean | Prisma.Room$replayArgs<ExtArgs>
@@ -787,6 +830,7 @@ export type $RoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     creatorToken: string
     language: string
     durationMinutes: number
+    maxParticipants: number
     locked: boolean
     createdAt: Date
     expiresAt: Date
@@ -1220,6 +1264,7 @@ export interface RoomFieldRefs {
   readonly creatorToken: Prisma.FieldRef<"Room", 'String'>
   readonly language: Prisma.FieldRef<"Room", 'String'>
   readonly durationMinutes: Prisma.FieldRef<"Room", 'Int'>
+  readonly maxParticipants: Prisma.FieldRef<"Room", 'Int'>
   readonly locked: Prisma.FieldRef<"Room", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Room", 'DateTime'>
   readonly expiresAt: Prisma.FieldRef<"Room", 'DateTime'>

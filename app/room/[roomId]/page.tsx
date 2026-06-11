@@ -509,6 +509,7 @@ export function RoomPageInner({ params }: RoomPageProps) {
                 language={language}
                 value={code}
                 settings={editorSettings}
+                readOnly={isReadOnly}
                 onChange={(value) => {
                   setCode(value ?? "")
                 }}
@@ -719,6 +720,14 @@ export default function RoomPage({ params }: RoomPageProps) {
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
+        Loading room...
+      </div>
+    }>
+      <RoomPageInner params={params} />
+    </Suspense>
+  )
+}
+-zinc-950 text-zinc-400">
         Loading room...
       </div>
     }>
