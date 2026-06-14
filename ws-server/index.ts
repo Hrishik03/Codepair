@@ -242,8 +242,8 @@ io.on("connection", (socket) => {
     if (!room) return
     if (room.creatorToken !== creatorToken) return
 
-    saveReplay(roomId)
     io.to(roomId).emit("session:ended")
+    saveReplay(roomId)
     rooms.delete(roomId)
   })
 

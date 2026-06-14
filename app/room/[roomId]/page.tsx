@@ -8,6 +8,7 @@ import {
   Clock3,
   Code2,
   Copy,
+  Loader2,
   PauseCircle,
   PlayCircle,
   Play,
@@ -100,21 +101,26 @@ export function RoomPageInner({ params }: RoomPageProps) {
     localStorage.setItem("editorSettings", JSON.stringify(newSettings))
   }
 
+  const [roomError, setRoomError] = useState<Error | null>(null)
+
   useEffect(() => {
-  fetch(`/api/room?roomId=${roomId}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.error) {
-        router.push("/")
-        return
-      }
-      setLanguage(data.language)
-      localStorage.setItem(`language-${roomId}`, data.language)
-      setTimeLeft(typeof data.remainingSeconds === "number" ? data.remainingSeconds : data.durationMinutes * 60)
-      // Store maxParticipants temporarily to pass to socket
-      ;(window as any)._maxParticipants = data.maxParticipants
-    })
-}, [roomId, router])
+    fetch(`/api/room?roomId=${roomId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          setRoomError(new Error(data.error))
+          return
+        }
+        setLanguage(data.language)
+        localStorage.setItem(`language-${roomId}`, data.language)
+        setTimeLeft(typeof data.remainingSeconds === "number" ? data.remainingSeconds : data.durationMinutes * 60)
+        // Store maxParticipants temporarily to pass to socket
+        ;(window as any)._maxParticipants = data.maxParticipants
+      })
+      .catch(err => setRoomError(err))
+  }, [roomId])
+
+  if (roomError) throw roomError
 
   const handleLanguageChange = (newLanguage: string) => {
     const nextCode = CODE_TEMPLATE_BY_LANGUAGE[newLanguage] ?? ""
@@ -241,6 +247,11 @@ export function RoomPageInner({ params }: RoomPageProps) {
       socket.disconnect()
       router.push("/")
     })
+    socket.on("session:ended", () => {
+      console.log("Session ended by host, redirecting...")
+      router.push("/")
+      setTimeout(() => socket.disconnect(), 100)
+    })
 
     // socket.off("notes:changed")
 
@@ -256,6 +267,7 @@ export function RoomPageInner({ params }: RoomPageProps) {
       socket.off("timer:ended");
       socket.off("room:locked");
       socket.off("room:kicked");
+      socket.off("session:ended");
     };
   }, [socket, roomId, router, userName, timeLeft === null]);
 
@@ -323,6 +335,15 @@ export function RoomPageInner({ params }: RoomPageProps) {
     setJoinLoading(false)
   }
 
+  const handleEndSession = () => {
+    const creatorToken = localStorage.getItem("creatorToken")
+    if (!creatorToken || !socket) return
+
+    if (confirm("Are you sure you want to end the session? This will kick all participants and close the room.")) {
+      socket.emit("session:end", { roomId, creatorToken })
+    }
+  }
+
   return (
     <main className="flex min-h-screen flex-col bg-zinc-950 text-zinc-100">
       <header className="border-b border-zinc-800 bg-zinc-900">
@@ -387,11 +408,17 @@ export function RoomPageInner({ params }: RoomPageProps) {
               )}
             </div>
           </div>
-          <span className="ml-auto inline-flex items-center gap-2 text-xs text-zinc-500">
-            <span className="size-2 rounded-full bg-emerald-400" />
-            Sync healthy
-          </span>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="ml-auto flex flex-wrap items-center gap-2">
+            {isHost && (
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={handleEndSession}
+                className="h-8 cursor-pointer"
+              >
+                End Session
+              </Button>
+            )}
             <span className="rounded-md border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-400">
              {myParticipant?.role ?? "connecting..."}
             </span>
@@ -446,7 +473,7 @@ export function RoomPageInner({ params }: RoomPageProps) {
               {joinError && <p className="text-sm text-red-400">{joinError}</p>}
               <div className="flex justify-end">
                 <Button type="submit" disabled={joinLoading} className="h-10">
-                  {joinLoading ? "Joining..." : "Join room"}
+                  {joinLoading ? <Loader2 className="size-4 animate-spin" /> : "Join room"}
                 </Button>
               </div>
             </form>
@@ -718,13 +745,5 @@ export function RoomPageInner({ params }: RoomPageProps) {
 }
 
 export default function RoomPage({ params }: RoomPageProps) {
-  return (
-    <Suspense fallback={
-      <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-        Loading room...
-      </div>
-    }>
-      <RoomPageInner params={params} />
-    </Suspense>
-  )
+  return <RoomPageInner params={params} />
 }

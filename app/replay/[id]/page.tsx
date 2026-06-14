@@ -53,14 +53,22 @@ export default function ReplayPage() {
   const [currentTime, setCurrentTime] = useState(0)
   const [playing, setPlaying] = useState(false)
 
+  const [replayError, setReplayError] = useState<Error | null>(null)
+
   useEffect(() => {
     fetch(`/api/replay/${id}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Replay not found")
+        return res.json()
+      })
       .then(data => {
         setReplay(data)
         setLoading(false)
       })
+      .catch(err => setReplayError(err))
   }, [id])
+
+  if (replayError) throw replayError
 
   useEffect(() => {
     if (!playing || !replay) return
@@ -84,17 +92,7 @@ export default function ReplayPage() {
 
   const visibleEvents = replay?.log.filter(e => e.t <= currentTime) ?? []
 
-  if (loading) return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-      Loading replay...
-    </div>
-  )
-
-  if (!replay) return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-      Replay not found.
-    </div>
-  )
+  if (loading) return null
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">

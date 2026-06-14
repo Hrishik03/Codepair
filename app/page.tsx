@@ -7,6 +7,7 @@ import {
   ArrowRight,
   Clock3,
   Code2,
+  Loader2,
   MessageSquareText,
 } from "lucide-react"
 
@@ -95,7 +96,7 @@ export default function Home() {
               <Button
                 onClick={handleJoinRoom}
                 disabled={!name.trim() || !roomCode.trim()}
-                className="h-11 min-w-36 bg-blue-500 text-zinc-950 hover:bg-blue-600 hover:text-white disabled:opacity-50"
+                className="h-11 min-w-36 cursor-pointer bg-blue-500 text-zinc-950 hover:bg-blue-600 hover:text-white disabled:opacity-50"
               >
                 Join room
                 <ArrowRight className="size-4" />
@@ -110,9 +111,9 @@ export default function Home() {
               onClick={() => setDialogOpen(true)}
               disabled={loading}
               variant="outline"
-              className="h-11 w-full border-zinc-700 bg-zinc-900/60 text-zinc-200 hover:bg-zinc-800 hover:text-zinc-100 disabled:opacity-50"
+              className="h-11 w-full cursor-pointer border-zinc-700 bg-zinc-900/60 text-zinc-200 hover:bg-zinc-800 hover:text-zinc-100 disabled:opacity-50"
             >
-              {loading ? "Creating..." : "Create a fresh room"}
+              {loading ? <Loader2 className="size-4 animate-spin" /> : "Create a fresh room"}
             </Button>
           </div>
         </div>
@@ -192,7 +193,7 @@ export default function Home() {
             <button
               key={val}
               onClick={() => setMaxParticipants(val)}
-              className={`rounded-lg border py-2 text-sm font-medium transition-colors ${
+              className={`cursor-pointer rounded-lg border py-2 text-sm font-medium transition-colors ${
                 maxParticipants === val
                   ? "border-blue-500 bg-blue-500/10 text-blue-300"
                   : "border-zinc-700 bg-zinc-800 text-zinc-400 hover:border-zinc-600"
@@ -219,7 +220,7 @@ export default function Home() {
             <button
               key={value}
               onClick={() => setRoomDuration(value)}
-              className={`rounded-lg border py-2 text-sm font-medium transition-colors ${
+              className={`cursor-pointer rounded-lg border py-2 text-sm font-medium transition-colors ${
                 roomDuration === value
                   ? "border-blue-500 bg-blue-500/10 text-blue-300"
                   : "border-zinc-700 bg-zinc-800 text-zinc-400 hover:border-zinc-600"
@@ -262,16 +263,16 @@ export default function Home() {
         <Button
           onClick={() => setDialogOpen(false)}
           variant="outline"
-          className="flex-1 border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+          className="flex-1 cursor-pointer border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
         >
           Cancel
         </Button>
         <Button
           onClick={handleCreateRoom}
           disabled={loading || !name.trim()}
-          className="flex-1 bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50"
+          className="flex-1 cursor-pointer bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50"
         >
-          {loading ? "Creating..." : "Create room →"}
+          {loading ? <Loader2 className="size-4 animate-spin" /> : "Create room →"}
         </Button>
       </div>
     </div>
