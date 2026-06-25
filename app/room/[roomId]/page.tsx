@@ -157,6 +157,7 @@ export function RoomPageInner({ params }: RoomPageProps) {
           return
         }
         setLanguage(data.language)
+        setCode(CODE_TEMPLATE_BY_LANGUAGE[data.language] ?? "")
         localStorage.setItem(`language-${roomId}`, data.language)
         setTimeLeft(typeof data.remainingSeconds === "number" ? data.remainingSeconds : data.durationMinutes * 60)
         // Store maxParticipants temporarily to pass to socket
@@ -528,6 +529,16 @@ export function RoomPageInner({ params }: RoomPageProps) {
                 {roomLocked ? "Unlock room" : "Lock room"}
               </Button>
             )}
+            {isHost && !!localStorage.getItem("creatorToken") && (
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={handleEndSession}
+                className="cursor-pointer h-8 border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20"
+              >
+                End session
+              </Button>
+            )}
             <Button size="sm"
              variant="outline"
              onClick={() => setShareOpen(true)}
@@ -811,18 +822,7 @@ export function RoomPageInner({ params }: RoomPageProps) {
                 </div>
 
                 {/* Session Controls */}
-                <div className="mt-4 pt-4 border-t border-zinc-800">
-                  {isHost && !!localStorage.getItem("creatorToken") && (
-                    <Button
-                      onClick={handleEndSession}
-                      variant="outline"
-                      className="w-full border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 h-9"
-                    >
-                      <Square className="size-3.5 mr-2" />
-                      End session
-                    </Button>
-                  )}
-                </div>
+                <div className="mt-4 pt-4 border-t border-zinc-800" />
               </div>
             )}
           </div>
