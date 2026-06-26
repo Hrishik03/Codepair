@@ -25,91 +25,31 @@ export const LANGUAGE_VALUE_BY_LABEL: Record<string, string> = {
   export const LANGUAGE_LABELS = Object.keys(LANGUAGE_VALUE_BY_LABEL)
   
   export const CODE_TEMPLATE_BY_LANGUAGE: Record<string, string> = {
-    typescript: `function twoSum(nums: number[], target: number): number[] {
-    const seen = new Map<number, number>();
-  
-    for (let i = 0; i < nums.length; i++) {
-      const complement = target - nums[i];
-      if (seen.has(complement)) return [seen.get(complement)!, i];
-      seen.set(nums[i], i);
+    typescript: `console.log("Hello, TypeScript");
+`,
+    python: `print("Hello, Python")
+`,
+    java: `class Solution {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java");
     }
-  
-    return [];
-  }
-  `,
-    python: `def two_sum(nums, target):
-      seen = {}
-  
-      for i, num in enumerate(nums):
-          complement = target - num
-          if complement in seen:
-              return [seen[complement], i]
-          seen[num] = i
-  
-      return []
-  `,
-    java: `import java.util.*;
-  
-  class Solution {
-      public int[] twoSum(int[] nums, int target) {
-          Map<Integer, Integer> seen = new HashMap<>();
-  
-          for (int i = 0; i < nums.length; i++) {
-              int complement = target - nums[i];
-              if (seen.containsKey(complement)) {
-                  return new int[] { seen.get(complement), i };
-              }
-              seen.put(nums[i], i);
-          }
-  
-          return new int[] {};
-      }
-  }
-  `,
-    cpp: `#include <vector>
-  #include <unordered_map>
-  using namespace std;
-  
-  vector<int> twoSum(vector<int>& nums, int target) {
-      unordered_map<int, int> seen;
-  
-      for (int i = 0; i < (int)nums.size(); i++) {
-          int complement = target - nums[i];
-          if (seen.count(complement)) {
-              return {seen[complement], i};
-          }
-          seen[nums[i]] = i;
-      }
-  
-      return {};
-  }
-  `,
+}
+`,
+    cpp: `#include <iostream>
+
+int main() {
+    std::cout << "Hello, C++" << std::endl;
+    return 0;
+}
+`,
     go: `package main
-  
-  func twoSum(nums []int, target int) []int {
-      seen := map[int]int{}
-  
-      for i, num := range nums {
-          complement := target - num
-          if idx, ok := seen[complement]; ok {
-              return []int{idx, i}
-          }
-          seen[num] = i
-      }
-  
-      return []int{}
-  }
-  `,
-    javascript: `function twoSum(nums, target) {
-    const seen = new Map();
-  
-    for (let i = 0; i < nums.length; i++) {
-      const complement = target - nums[i];
-      if (seen.has(complement)) return [seen.get(complement), i];
-      seen.set(nums[i], i);
-    }
-  
-    return [];
-  }
-  `,
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, Go")
+}
+`,
+    javascript: `console.log("Hello, JavaScript");
+`,
   }
