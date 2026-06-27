@@ -15,7 +15,7 @@ export default function NotFound() {
       </p>
 
       <Link href="/">
-        <Button className="bg-blue-500 text-white hover:bg-blue-600">
+        <Button className="bg-blue-500 text-white hover:bg-blue-600 cursor-pointer">
           <Home className="mr-2 size-4" />
           Back to Home
         </Button>

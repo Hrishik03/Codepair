@@ -31,13 +31,13 @@ export default function ReplayError({
       <div className="flex flex-wrap items-center justify-center gap-4">
         <Button
           onClick={() => reset()}
-          className="bg-blue-500 text-white hover:bg-blue-600"
+          className="bg-blue-500 text-white hover:bg-blue-600 cursor-pointer"
         >
           <RotateCcw className="mr-2 size-4" />
           Try again
         </Button>
         <Link href="/">
-          <Button variant="outline" className="border-zinc-800 bg-zinc-900 hover:bg-zinc-800">
+          <Button variant="outline" className="border-zinc-800 bg-zinc-900 hover:bg-zinc-800 cursor-pointer">
             <Home className="mr-2 size-4" />
             Back to Home
           </Button>
