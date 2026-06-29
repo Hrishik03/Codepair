@@ -3,7 +3,7 @@ export type Participant = {
   name: string
   color: string
   role: string
-  status: string
+  status: "online" | "away"
 }
 
 export type ExecutionResult = {

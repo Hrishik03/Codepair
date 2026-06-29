@@ -36,7 +36,7 @@ interface Participant {
   name: string
   color: string
   role: string
-  status: string
+  status: "online" | "away"
 }
 
 interface Room {
@@ -56,8 +56,9 @@ setInterval(() => {
     if (room.timerRunning && room.remainingSeconds > 0) {
       room.remainingSeconds -= 1
       if (room.remainingSeconds === 0) {
-        room.timerRunning = false
         io.to(roomId).emit("timer:ended")
+        void endRoomSession(roomId)
+        return
       }
       // Broadcast every second or every few seconds to keep in sync
       io.to(roomId).emit("timer:tick", { remainingSeconds: room.remainingSeconds })
@@ -77,7 +78,7 @@ function getAvailableColor(room: Room) {
 // ── Save replay via Next.js API ──
 async function saveReplay(roomId: string) {
   const session = endSession(roomId)
-  if (!session || session.events.length === 0) return
+  if (!session || session.events.length === 0) return null
 
   const durationS = Math.round((Date.now() - session.startTime) / 1000)
   const { nanoid } = await import("nanoid")
@@ -96,9 +97,22 @@ async function saveReplay(roomId: string) {
       }),
     })
     console.log(`Replay saved: ${replayId}`)
+    return replayId
   } catch (err) {
     console.error("Failed to save replay:", err)
+    return null
   }
+}
+
+async function endRoomSession(roomId: string) {
+  const room = rooms.get(roomId)
+  if (!room) return
+
+  room.timerRunning = false
+  const replayId = await saveReplay(roomId)
+  io.to(roomId).emit("session:ended", { replayId })
+  io.in(roomId).socketsLeave(roomId)
+  rooms.delete(roomId)
 }
 
 // Socket.IO events
@@ -222,6 +236,20 @@ io.on("connection", (socket) => {
     )
   })
 
+  // ── Participant status (editors/viewers only) ──
+  socket.on("participant:status", ({ roomId, status }: { roomId: string; status: "online" | "away" }) => {
+    const room = rooms.get(roomId)
+    const participant = room?.participants.get(socket.id)
+    if (!room || !participant) return
+    if (participant.role === "host") return
+    if (status !== "online" && status !== "away") return
+
+    participant.status = status
+    io.to(roomId).emit("participants:update",
+      Array.from(room.participants.values())
+    )
+  })
+
   // ── Lock room (host only) ──
   socket.on("room:lock", ({ roomId, creatorToken }) => {
     const room = rooms.get(roomId)
@@ -262,37 +290,7 @@ io.on("connection", (socket) => {
     if (!room) return
     if (room.creatorToken !== creatorToken) return
 
-    const session = endSession(roomId)
-    if (!session || session.events.length === 0) {
-      io.to(roomId).emit("session:ended", { replayId: null })
-      rooms.delete(roomId)
-      return
-    }
-
-    const durationS = Math.round((Date.now() - session.startTime) / 1000)
-    const { nanoid } = await import("nanoid")
-    const replayId = nanoid(10)
-
-    try {
-      await fetch("http://localhost:3000/api/replay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          replayId,
-          roomId,
-          durationS,
-          language: session.language ?? "typescript",
-          log: session.events,
-        }),
-      })
-      console.log(`Replay saved: ${replayId}`)
-      io.to(roomId).emit("session:ended", { replayId })
-    } catch (err) {
-      console.error("Failed to save replay:", err)
-      io.to(roomId).emit("session:ended", { replayId: null })
-    }
-
-    rooms.delete(roomId)
+    await endRoomSession(roomId)
   })
 
   // ── Chat message ──

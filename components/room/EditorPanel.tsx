@@ -1,7 +1,7 @@
 "use client"
 
 import type { editor } from "monaco-editor"
-import { Play } from "lucide-react"
+import { PauseCircle, Play, PlayCircle } from "lucide-react"
 import MonacoEditor from "@/components/editor/MonacoEditor"
 import { Button } from "@/components/ui/button"
 import type { EditorSettings } from "@/components/room/SettingsModal"
@@ -21,9 +21,12 @@ type EditorPanelProps = {
   isReadOnly: boolean
   running: boolean
   timeLeft: number | null
+  timerRunning: boolean
+  isHost: boolean
   onActiveEditorTabChange: (tab: "solution" | "notes") => void
   onLanguageChange: (language: string) => void
   onRun: () => void
+  onToggleTimer: () => void
   onCodeChange: (value: string) => void
   onNotesChange: (value: string) => void
   onEditorMount: (monacoEditor: editor.IStandaloneCodeEditor) => void
@@ -38,9 +41,12 @@ export default function EditorPanel({
   isReadOnly,
   running,
   timeLeft,
+  timerRunning,
+  isHost,
   onActiveEditorTabChange,
   onLanguageChange,
   onRun,
+  onToggleTimer,
   onCodeChange,
   onNotesChange,
   onEditorMount,
@@ -94,6 +100,19 @@ export default function EditorPanel({
            }`}>
           {timeLeft !== null ? formatTime(timeLeft) : "--:--"}
         </span>
+        {isHost && (
+          <button
+            onClick={onToggleTimer}
+            title={timerRunning ? "Pause timer" : "Resume timer"}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-700 bg-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200"
+          >
+            {timerRunning ? (
+              <PauseCircle className="size-5.5 cursor-pointer" />
+            ) : (
+              <PlayCircle className="size-5.5 cursor-pointer" />
+            )}
+          </button>
+        )}
       </div>
 
       <div className="h-[75vh] overflow-hidden bg-zinc-950">

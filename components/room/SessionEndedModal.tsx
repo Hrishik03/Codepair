@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Copy, Check, Home, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
@@ -12,14 +12,10 @@ interface SessionEndedModalProps {
 
 export default function SessionEndedModal({ replayId, onClose }: SessionEndedModalProps) {
   const [copied, setCopied] = useState(false)
-  const [replayUrl, setReplayUrl] = useState("")
   const router = useRouter()
-
-  useEffect(() => {
-    if (replayId) {
-      setReplayUrl(`${window.location.origin}/replay/${replayId}`)
-    }
-  }, [replayId])
+  const replayUrl = replayId && typeof window !== "undefined"
+    ? `${window.location.origin}/replay/${replayId}`
+    : ""
 
   const copyReplayUrl = async () => {
     if (!replayUrl) return
@@ -42,7 +38,7 @@ export default function SessionEndedModal({ replayId, onClose }: SessionEndedMod
           </div>
           <h2 className="text-2xl font-bold text-zinc-100">Session Ended</h2>
           <p className="mt-2 text-sm text-zinc-400">
-            The host has ended this collaborative session.
+            This collaborative session has ended.
           </p>
         </div>
 
@@ -57,7 +53,7 @@ export default function SessionEndedModal({ replayId, onClose }: SessionEndedMod
               </span>
               <button
                 onClick={copyReplayUrl}
-                className="flex size-8 items-center justify-center rounded-md border border-zinc-700 bg-zinc-900 text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-200"
+                className="flex size-8 items-center justify-center rounded-md border border-zinc-700 bg-zinc-900 text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-200 cursor-pointer"
               >
                 {copied ? (
                   <Check className="size-3.5 text-emerald-400" />
@@ -78,7 +74,7 @@ export default function SessionEndedModal({ replayId, onClose }: SessionEndedMod
 
         <Button
           onClick={handleGoHome}
-          className="w-full bg-blue-500 py-6 text-base font-semibold text-white hover:bg-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all active:scale-[0.98]"
+          className="w-full bg-blue-500 py-6 text-base font-semibold text-white hover:bg-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all active:scale-[0.98] cursor-pointer"
         >
           <Home className="mr-2 size-5" />
           Back to Home

@@ -143,9 +143,12 @@ export function RoomPageInner({ params }: RoomPageProps) {
           isReadOnly={isReadOnly}
           running={execution.running}
           timeLeft={metadata.timeLeft}
+          timerRunning={room.timerRunning}
+          isHost={isHost}
           onActiveEditorTabChange={setActiveEditorTab}
           onLanguageChange={room.handleLanguageChange}
           onRun={execution.handleRun}
+          onToggleTimer={host.handleToggleTimer}
           onCodeChange={metadata.setCode}
           onNotesChange={room.handleNotesChange}
           onEditorMount={handleEditorMount}

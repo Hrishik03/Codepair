@@ -40,8 +40,8 @@ export default function ParticipantList({
                     <span className="ml-1 text-zinc-500">(you)</span>
                   )}
                 </p>
-                <p className="text-[11px] leading-tight text-emerald-500">
-                  online
+                <p className={`text-[11px] leading-tight ${p.status === "away" ? "text-amber-500" : "text-emerald-500"}`}>
+                  {p.status}
                 </p>
               </div>
               <span className="rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] text-zinc-400">
@@ -61,6 +61,7 @@ export default function ParticipantList({
                     size="xs"
                     variant="destructive"
                     onClick={() => onKickParticipant(p.id)}
+                    className="cursor-pointer"
                   >
                     Kick
                   </Button>

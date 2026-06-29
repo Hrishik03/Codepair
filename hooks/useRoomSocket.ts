@@ -213,6 +213,32 @@ export function useRoomSocket({
     incrementCodeRunCount,
   ])
 
+  const currentParticipant = socket
+    ? participants.find((participant) => participant.id === socket.id)
+    : undefined
+  const currentParticipantId = currentParticipant?.id
+  const currentParticipantRole = currentParticipant?.role
+
+  useEffect(() => {
+    if (!socket) return
+
+    if (!currentParticipantId || currentParticipantRole === "host") return
+
+    const updateStatus = () => {
+      socket.emit("participant:status", {
+        roomId,
+        status: document.hidden ? "away" : "online",
+      })
+    }
+
+    updateStatus()
+    document.addEventListener("visibilitychange", updateStatus)
+
+    return () => {
+      document.removeEventListener("visibilitychange", updateStatus)
+    }
+  }, [socket, roomId, currentParticipantId, currentParticipantRole])
+
   return {
     participants,
     result,
